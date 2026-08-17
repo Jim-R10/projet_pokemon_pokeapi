@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-// import DetailPokemon from './detailPokemon';
 
 function DetailPokemon({ url }) {
   const [details, setDetails] = useState(null);
@@ -60,3 +59,5 @@ function App() {
 }
 
 export default App;
+// onChange , mila input search bar, rehefa manova ny value dia miantso function izay manao filter 
+// ny pokemons araka ny name, ary mamerina ilay array filtered. 
