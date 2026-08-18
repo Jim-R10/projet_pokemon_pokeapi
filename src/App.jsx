@@ -13,8 +13,8 @@ function DetailPokemon({ url }) {
   if (!details) return <p>...</p>;
 
   return (
-    <div class="pokemons">
-      <div class="pokemon_card">
+    <div className="pokemons">
+      <div className="pokemon_card">
         <img src={details.sprites.front_default} alt={details.name} />
         <p>{details.name}</p>
         <p>Types : {details.types.map((t) => t.type.name).join(', ')}</p>
@@ -27,15 +27,20 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState(null);
+  const [recherche, setRecherche] = useState('');
+
+  function handleChange(event) {
+    setRecherche(event.target.value); 
+  }
 
   useEffect(() => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=100')
       .then((res) => {
-        if (!res.ok) throw new Error('Erreur réseau');
+        if (!res.ok) throw new Error('Erreur reseau');
         return res.json();
       })
       .then((data) => {
-        setPokemons(data.results); 
+        setPokemons(data.results);
         setLoading(false);
       })
       .catch((err) => {
@@ -44,20 +49,33 @@ function App() {
       });
   }, []);
 
+  const pokemonsFiltres = pokemons.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(recherche.toLowerCase())
+  );
+
   if (loading) return <p>Chargement...</p>;
   if (erreur) return <p>Erreur : {erreur}</p>;
 
   return (
-    <ul>
-      {pokemons.map((p) => (
-        <li key={p.name}>
-          <DetailPokemon url={p.url} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      { }
+      <input
+        type="text"
+        placeholder="Rechercher un Pokémon..."
+        value={recherche}
+        onChange={handleChange}
+      />
+
+      { }
+      <ul>
+        {pokemonsFiltres.map((p) => (
+          <li key={p.name}>
+            <DetailPokemon url={p.url} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
 export default App;
-// onChange , mila input search bar, rehefa manova ny value dia miantso function izay manao filter 
-// ny pokemons araka ny name, ary mamerina ilay array filtered. 
